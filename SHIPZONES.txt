@@ -1,0 +1,86 @@
+UPS Next Day Air Early/Next Day Air
+
+102
+103
+104
+105
+106
+107
+108  
+
+Zone 124 is metro Alaska and Hawaii, Zone 125 is Puerto Rico, and Zone 126 is remote Alaska and Hawaii. Zone 126 for remote Hawaii is not delivered the next business day. Delivery to this zone
+requires an additional day
+
+124-metro Alaksa and Hawaii(AIR)
+125-Puerto Ricoo
+126-remote Alaska and Hawaii(requires an additional day for Hawaii)
+
+UPS Next Day Saver
+
+132
+133
+134
+135
+136
+137
+138
+
+UPS 2nd Day Air A.M.
+
+242
+243
+244
+245
+246
+247
+248
+
+UPS 2nd Day Air
+
+202
+203
+204
+205
+206
+207
+208
+
+Zone 224 is metro Alaska and Hawaii, Zone 225 is Puerto Rico, and Zone 226 is remote Alaska and Hawaii
+
+224-metro Alaksa and Hawaii
+225-Puerto Ricoo
+226-remote Alaska and Hawaii
+
+UPS 3 Day Select
+
+302
+303
+304
+305
+306
+307
+308
+
+UPS Ground
+
+2
+3
+4
+5
+6
+7
+8
+
+Zone 44 is metro Alaska and Hawaii, Zone 45 is Puerto Rico, and Zone 46 is remote Alaska and Hawaii.
+
+44-metro Alaksa and Hawaii
+45-Puerto Ricoo
+46-remote Alaska and Hawaii
+
+
+
+
+
+
+
+
