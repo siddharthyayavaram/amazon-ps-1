@@ -11,7 +11,7 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     lon2 -- longitude of the second point (in degrees)
 
     Returns:
-    The distance between the two points (in kilometers).
+    The distance between the two points (in miles).
     """
     # Convert latitude and longitude from degrees to radians
     lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
@@ -24,7 +24,7 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     radius = 6371  # Radius of the Earth in kilometers
     distance = c * radius
 
-    return distance
+    return distance*0.621371
 
 # Example usage
 latitude1 = float(input("Enter latitude of the first point: "))
@@ -33,4 +33,4 @@ latitude2 = float(input("Enter latitude of the second point: "))
 longitude2 = float(input("Enter longitude of the second point: "))
 
 result = haversine_distance(latitude1, longitude1, latitude2, longitude2)
-print("The distance between the two points is approximately {:.2f} kilometers.".format(result))
+print("The distance between the two points is approximately {:.2f} miles.".format(result))
