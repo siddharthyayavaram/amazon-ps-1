@@ -30,10 +30,11 @@ Example Conversion: New Michelle, OH 50777 -> OH
 
 Step 4: Filling in the missing values using KNNimputer.
 
-
+Simple imputer is for 'Artist Reputation', 'Height'	,'Width'
 KNNimputer is a scikit-learn class used to fill out or predict the missing values in a dataset. It is a 
 more useful method which works on the basic approach of the KNN algorithm rather than the naive approach 
 of filling all the values with mean or the median. It is based on Euclidean distance.
+KNNimputer is for 'Weight' and 'Transport'
 
 Step 5: Numerical encoding for non-numeric columns
 
@@ -68,4 +69,43 @@ These features have a low correlation with the cost and hence can be removed wit
 
 
 
- 
+Machine Learning Documentation
+
+1. Using LazyRegressor for an overall view
+
+We used LazyRegressor from lazypredict's supervised models. LazyRegressor semi-automates the machine-learning task
+lazypredict is a convenient wrapper library, that enables us to quickly fit all the models to our dataset and compare 
+their performance so that the user can gain a good idea of which models are working the best for the given dataset though
+hyperparameter tuning can also affect the results significantly.
+
+Another important thing that is rather hidden from the user is that the library automatically applies simple preprocessing to the dataset.
+First, it imputes missing values using SimpleImputer (using the mean for numeric features and a constant ‘missing’ value for categorical ones).
+Then, it uses StandardScaler for numeric features and either OneHotEncoder or OrdinalEncoder for the categorical features (depending on the 
+cardinality — number of unique values).
+
+It provides Adjusted R-Squared, R-Squared, RMSE and time taken for each of the regressor used. From the table, we inferred that the following
+models were working the best:
+LGBMRegressor	
+HistGradientBoostingRegressor
+XGBRegressor
+ExtraTreesRegressor
+RandomForestRegressor
+GradientBoostingRegressor
+
+Apart from the above regressors, we also used baseline simple models such as linear regression.
+
+2. Training our dataset on the above regressor models
+
+We trained our models on the above regressor and found out that HistGradientBoostingRegressor was giving the best result with the best r-squared
+value.
+
+3. Preparing submission.csv file 
+
+The sample submission format included 2 colums: 'Customer Id' and 'Cost'.
+To prepare the submission file, we first stored the Customer Id column in a temp dataframe as it was needed later. The same steps for the pre-processing
+were applied except removing the outliers as output was needed for all the rows.
+
+We trained the test dataframe using HistGradientBoostingRegressor and created the submission.csv file.
+
+
+
