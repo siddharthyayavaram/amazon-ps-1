@@ -16,4 +16,19 @@ Amazon ships billions of packages in a year, incurring multi-billions of dollars
 
 I also worked on tasks involving Named Entity Recognition , please find the link attached here
 
+### Named Entity Recognition using BERT
+
+- Utilized BERT for Named Entity Recognition (NER) on unstructured text to identify the Brand and Model of products.
+
+### Knowledge Base (KB) Development
+
+- Developed a knowledge base (KB) of product brands and models by extracting details from product, manufacturer, and review webpages.
+
 https://github.com/arnavyayavaram/Amazon_PS1/
+
+### Tools and Technologies
+
+- *Languages*: Python
+- *Libraries*: Pandas, Spacy
+- *Machine Learning*: BERT, LGBMRegressor, HistGradientBoostingRegressor, RandomForestRegressor
+- *Web Framework*: Django REST Framework
