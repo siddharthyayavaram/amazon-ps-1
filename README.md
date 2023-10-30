@@ -1,5 +1,7 @@
 # Applied Science - Shipping Tech, Hyderabad
 
+All required configuration files can be found above
+
 **Project Description:**
 
 All required configuration details can be found above
