@@ -1,106 +1,94 @@
 from django.db import models
-from math import radians, sin, cos, sqrt, asin
+from django.core.exceptions import ObjectDoesNotExist
 
 class Ship_params(models.Model):
-    # zone = models.IntegerField(default=100)
+    unit_dim_choices = [
+        ("m","meters"),
+        ("cm","centimeters"),
+        ("in","inches"),
+        ("ft","feet"),
+    ]
+    unit_wt_choices = [
+        ("kg","kilograms"),
+        ("g","grams"),
+        ("lb","pounds"),
+    ]
     length = models.FloatField(default=10)
+    unit_len = models.CharField(max_length=2,choices=unit_dim_choices, default="in")
     breadth = models.FloatField(default=10)
+    unit_bre = models.CharField(max_length=2,choices=unit_dim_choices, default="in")
     height = models.FloatField(default=10)
+    unit_hei = models.CharField(max_length=2,choices=unit_dim_choices, default="in")
     mode = models.IntegerField(default=2)
-    slot = models.FloatField(default=1)
-    days = models.FloatField(default=1)
-    lat1 = models.FloatField(default=10.00)
-    lon1 = models.FloatField(default=10.00)
-    lat2 = models.FloatField(default=10.00)
-    lon2 = models.FloatField(default=10.00)
+    actual_weight = models.IntegerField(default=1)
+    unit_wt = models.CharField(max_length=2,choices=unit_wt_choices, default="lb")
+    src_zip = models.IntegerField(default = 10001)
+    dest_zip = models.IntegerField(default = 100)
 
     def billable_weight(self):
-        dim_weight=self.length*self.breadth*self.height
-        bill_weight=int(dim_weight/139)
+            
+            def convert_to_pounds(value):
+                if self.unit_wt == "kg":
+                    return value * 2.20462  # 1 kilogram = 2.20462 pounds
+                elif self.unit_wt == "g":
+                    return value * 0.00220462  # 1 gram = 0.00220462 pounds
+                else:
+                    return value
 
-        return bill_weight
+            def convert_to_inches(value,dim):
+                if dim == "m":
+                    return value * 39.37  # 1 meter = 39.37 inches
+                elif dim == "cm":
+                    return value * 0.3937  # 1 centimeter = 0.3937 inches
+                elif dim == "ft":
+                    return value * 12  # 1 foot = 12 inches
+                else:
+                    return value
+                    
+            weight = convert_to_pounds(self.actual_weight)
+            length_inches = convert_to_inches(self.length,self.unit_len)
+            breadth_inches = convert_to_inches(self.breadth,self.unit_bre)
+            height_inches = convert_to_inches(self.height,self.unit_hei)
+
+            dim_weight = length_inches * breadth_inches * height_inches
+            bill_weight = int(dim_weight / 139)
+
+            if bill_weight > weight:
+                return bill_weight
+            else:
+                return weight
     
-    def haversine_distance(self):
-        """
-        Calculate the distance between two points on the Earth's surface using the haversine formula.
-
-        Arguments:
-        lat1 -- latitude of the first point (in degrees)
-        lon1 -- longitude of the first point (in degrees)
-        lat2 -- latitude of the second point (in degrees)
-        lon2 -- longitude of the second point (in degrees)
-
-        Returns:
-        The distance between the two points (in miles).
-        """
-        # Convert latitude and longitude from degrees to radians
-        lat1, lon1, lat2, lon2 = map(radians, [self.lat1, self.lon1, self.lat2, self.lon2])
-
-        # Haversine formula
-        dlon = lon2 - lon1
-        dlat = lat2 - lat1
-        a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-        c = 2 * asin(sqrt(a))
-        radius = 6371  # Radius of the Earth in kilometers
-        distance = c * radius
-
-        return distance*0.621371  # conversion into miles
-    
-    @staticmethod   
-    def get_last_dig(miles):
-        if miles >= 1 and miles <= 50:
-            return "1"
-        elif miles >= 51 and miles <= 150:
-            return "2"
-        elif miles >= 151 and miles <= 300:
-            return "3"
-        elif miles >= 301 and miles <= 600:
-            return "4"
-        elif miles >= 601 and miles <= 1000:
-            return "5"
-        elif miles >= 1001 and miles <= 1400:
-            return "6"
-        elif miles >= 1401 and miles <= 1800:
-            return "7"
-        elif miles >= 1801:
-            return "8"
-
-    def zone_calc(self):
-
-        res = self.haversine_distance()
-
-        mode=self.mode
-        days=self.days
-        slot=self.slot
-
-        if mode==1:
-            print(self.get_last_dig(res))
-
+    def get_first_three_digits(number):
+    # Convert the number to a string
+        number_str = str(number)
+        
+        # Check if the number has at least three digits
+        if len(number_str) >= 3:
+            # Get the first three characters from the string and convert them back to an integer
+            first_three_digits = int(number_str[:3])
+            return first_three_digits
         else:
-            if days==1 :
-                if slot==1:
-                    zone="10"+self.get_last_dig(res)
-                elif slot==2:
-                    zone="10"+self.get_last_dig(res)
-                elif slot==3:
-                    zone="13"+self.get_last_dig(res)
-            elif days==2:
-                if slot==1:
-                    zone="24"+self.get_last_dig(res)
-                elif slot==2:
-                    zone="20"+self.get_last_dig(res)
-            elif days==3:
-                zone="30"+self.get_last_dig(res)
-
-        return zone
+            # The number has less than three digits, return the number itself
+            return number
+     
+    def zone_calc(self):
+        try:
+            t2_entry = T2.objects.get(dest_zip=self.dest_zip, mode=self.mode)
+            return t2_entry.zone
+        except ObjectDoesNotExist:
+            return None
+        
 
     @property
     def cost(self):
-        if self.billable_weight()>150:
+        if self.billable_weight() > 150:
             return -1
-
-        t1_entry = T1.objects.get(zones=self.zone_calc(), weight=self.billable_weight(), time=self.slot)
-        return t1_entry.price
+        else:
+            try:
+                t1_entry = T1.objects.get(zones=self.zone_calc(), weight=self.billable_weight(), time=2)
+                return t1_entry.price
+            except ObjectDoesNotExist:
+                return None
 
 class T1(models.Model):
     zones = models.IntegerField(db_column='Zones', blank=True, null=True)  # Field name made lowercase.
@@ -111,3 +99,13 @@ class T1(models.Model):
     class Meta:
         managed = False
         db_table = 'air'
+
+
+class T2(models.Model):
+    dest_zip = models.IntegerField(db_column='Dest_ZIP', blank=True, null = True)
+    mode = models.IntegerField(db_column='Mode', blank=True, null = True)
+    zone = models.IntegerField(db_column='Zone', blank=True, null = True)
+
+    class Meta:
+        managed = False
+        db_table = 'zonetable'
