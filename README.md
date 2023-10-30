@@ -14,7 +14,7 @@ Amazon ships billions of packages in a year, incurring multi-billions of dollars
 - HistGradientBoostingRegressor
 - RandomForestRegressor
 
-I also worked on tasks involving Named Entity Recognition , please find the link attached here
+I also worked on tasks involving Named Entity Recognition , please find the link attached here https://github.com/arnavyayavaram/Amazon_PS1/
 
 ### Named Entity Recognition using BERT
 
@@ -23,8 +23,6 @@ I also worked on tasks involving Named Entity Recognition , please find the link
 ### Knowledge Base (KB) Development
 
 - Developed a knowledge base (KB) of product brands and models by extracting details from product, manufacturer, and review webpages.
-
-https://github.com/arnavyayavaram/Amazon_PS1/
 
 ### Tools and Technologies
 
