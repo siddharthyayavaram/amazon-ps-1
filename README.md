@@ -1,7 +1,7 @@
 # Applied Science - Shipping Tech ,Hyderabad
 
-– Defined a predictive metric to provide an indication of the health of shipping cost of an item.
-– The best performing regression models were: LGBMRegressor, HistGradientBoostingRegressor, RandomForestRegressor
+ – Defined a predictive metric to provide an indication of the health of shipping cost of an item.
+ – The best performing regression models were: LGBMRegressor, HistGradientBoostingRegressor, RandomForestRegressor
 
 Amazon ships billions of packages in a year, incurring multi-billions of
 dollars in shipping cost. The shipping cost is optimized for most of the
