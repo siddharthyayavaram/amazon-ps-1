@@ -14,4 +14,6 @@ Amazon ships billions of packages in a year, incurring multi-billions of dollars
 - HistGradientBoostingRegressor
 - RandomForestRegressor
 
+I also worked on tasks involving Named Entity Recognition , please find the link attached here
 
+https://github.com/arnavyayavaram/Amazon_PS1/
